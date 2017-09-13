@@ -51,40 +51,54 @@ public class player13 implements ContestSubmission
     }
 
 	// private double child[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+	//hardcoded sizes
 	private int population_size = 10;
+	private int genome_size = 10;
+	private double mutation_chance = 0.5;
 	public void run()
 	{
 		// Run your algorithm here
 
         int evals = 0;
         // init population
-				double child[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+        double child[] ;//= {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+				//declaring populaton
+				double[][] population = new double[population_size][genome_size];
 
-				double[][] population = new double[][] { child, child, child, child, child,child, child, child, child, child  };
-
-
+				// randomly initilaizing all population
 				for (int i = 0; i < population_size ;i++){
-					for (int j = 0; j < 10 ;j++){
+					for (int j = 0; j < genome_size ;j++){
 						population[i][j] = rnd_.nextDouble();
 					}
 				}
+
         // calculate fitness
-        while(evals<evaluations_limit_){
+				double best_fitness = -9999999.0;
+        while(evals< 500 ){//evaluations_limit_){
+						for (int i = 0; i < population_size ;i++){
+							for (int j = 0; j < genome_size ;j++){
+								if (rnd_.nextDouble() > mutation_chance){
+									population[i][j] = population[i][j] + (1 - rnd_.nextDouble());
+									// System.out.println(rnd_.nextDouble());
+								}
+							}
+						}
             // Select parents
             // Apply crossover / mutation operators
-
-
-
-
+						// for every genome in population loop
 						for (int i = 0 ; i < population_size ; i++){
 							child = population[i];
             	// Check fitness of unknown fuction
             	Double fitness = (double) evaluation_.evaluate(child);
+							if (fitness > best_fitness) {
+								best_fitness = fitness;
+							}
 							System.out.println("evaluation " + evals +"  fitness of " + fitness );
 							evals++;
 						}
             // Select survivors
         }
+				// System.out.println("best " + bsest_fitness);
 
 
 	}
