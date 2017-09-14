@@ -1,9 +1,12 @@
+//import com.sun.tools.javac.jvm.Gen;
 import org.vu.contest.ContestSubmission;
 import org.vu.contest.ContestEvaluation;
 
 import java.util.Random;
 import java.util.Properties;
 import java.util.Vector;
+
+
 
 public class player13 implements ContestSubmission
 {
@@ -59,44 +62,60 @@ public class player13 implements ContestSubmission
 	private double mutation_chance = 0.2;
 	private double mutation_step = 0.2;
     private int tournoment_size = 2;
-    private Vector<double[]> population=new Vector<double[]>();
+    private Vector<Genome> population=new Vector<Genome>();
 //	private double[][] population = new double[population_size][genome_size];
 	private double[] population_fitness = new double[population_size];
 
+
+
 	public void run()
 	{
+
+
 		// Run your algorithm here
 		int evals = 0;
     // init population
 		//declaring populaton
 		initPopulation();
-        
+
 		// calculate fitness
 		double best_fitness = -9999999.0;
 		while(evals< evaluations_limit_){
-			// for every genome in population loop
-            for (double[] child : population){
+			// for every Genome in population loop
+            for (Genome genome : population){
 				// Check fitness of unknown fuction
-				double fitness = (double) evaluation_.evaluate(child);
+				double fitness = (double) evaluation_.evaluate(genome.getAlleles());
+                genome.setFittness(fitness);
+                genome.setEvaluated(true);
 				if (fitness > best_fitness)
 				{
 					best_fitness = fitness;
 				}
-				System.out.println("evaluation " + evals +"  fitness of " + String.format("%.20f",fitness) );
 				evals++;
 			}
+            System.out.println("evaluation " + evals +" population fitness of " + String.format("%.20f",best_fitness) );
 
 
-			// Select parents
+
+
+
+
+            // Select parents
+
 			// Apply crossover / mutation operators
+
+            mutatePopulation();
+
 
 			// Select survivors
 
 
-//			mutatePopulation();
+
 
 		}
-				// System.out.println("best " + bsest_fitness);
+//        for (Genome child : population) {
+////             System.out.println(" population fitness of " + String.format("%.20f",child[10]) );
+//        }
 
 	}
 
@@ -110,22 +129,22 @@ public class player13 implements ContestSubmission
 //            }
 //        }s
         for (int i = 0 ; i < population_size ; i++){
-            double[] child = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
-            population.add(child);
+
+            population.add(new Genome());
         }
-        for (double[] genome: population) {
+        for (Genome genome: population) {
             for (int j = 0; j < genome_size; j++) {
-                genome[j] = init_range * rnd_.nextDouble();
+                genome.setAlleleAtIndex(init_range * rnd_.nextDouble(),j);
             }
         }
 
 	}
 
 	public void mutatePopulation(){
-        for (double[] genome: population) {
+        for (Genome genome: population) {
 			for (int j = 0; j < genome_size ;j++){
 				if (rnd_.nextDouble() < mutation_chance){
-                    genome[j] = genome[j] + ((1 - rnd_.nextDouble()) * mutation_step);
+                    genome.setAlleleAtIndex(genome.getAlleleAtIndex(j) + ((1 - rnd_.nextDouble()) * mutation_step),j);
 					// System.out.println(rnd_.nextDouble());
 				}
 			}
