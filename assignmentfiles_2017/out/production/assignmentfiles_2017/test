@@ -1,0 +1,9 @@
+#!/bin/bash
+cd ~/Developer/EC/assignmentfiles_2017
+javac -cp contest.jar player13.java
+jar cmf MainClass.txt submission.jar player13.class
+
+# java -jar testrun.jar -submission=player13  -evaluation=SphereEvaluation -seed=10
+ java -jar testrun.jar -submission=player13  -evaluation=BentCigarFunction -seed=10
+# java -jar testrun.jar -submission=player13  -evaluation=SchaffersEvaluation -seed=10
+# java -jar testrun.jar -submission=player13  -evaluation=KatsuuraEvaluation -seed=10
