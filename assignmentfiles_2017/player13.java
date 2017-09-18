@@ -69,7 +69,7 @@ public class player13 implements ContestSubmission
 
 	private int population_size = 10;
     private static final int genome_size  = 10;
-	private double init_range = 1;
+	private double init_range = 5;
 
 	private double mutation_chance = 0.01;
 	private double mutation_step = 1;
@@ -161,9 +161,14 @@ public class player13 implements ContestSubmission
 
 //            int[] parents_positions = rouletteWheelSelection(3);
 
-
-
-            crossover3(population.get(parents_positions[0]), population.get(parents_positions[1]),population.get(parents_positions[2]));
+//            if( !related( population.get(parents_positions[0]),population.get(parents_positions[1]))
+//                    &&
+//                    !related( population.get(parents_positions[1]),population.get(parents_positions[2]))
+//                    &&
+//                    !related( population.get(parents_positions[0]),population.get(parents_positions[2]))
+//
+//                    )
+                crossover3(population.get(parents_positions[0]), population.get(parents_positions[1]),population.get(parents_positions[2]));
 
 //            population.remove(population.get(parents_positions[0]));population_size--;
 //            population.remove(population.get(parents_positions[1]));population_size--;
@@ -356,7 +361,7 @@ public class player13 implements ContestSubmission
             }
             if (unique) {
                 parents_positions[k] = parent_index;
-                System.out.println(parent_index + " fitness " + population.get(parent_index).getFitness());
+//                System.out.println(parent_index + " fitness " + population.get(parent_index).getFitness());
                 k++;
             }
 
