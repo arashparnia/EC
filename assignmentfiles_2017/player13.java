@@ -157,23 +157,28 @@ public class player13 implements ContestSubmission
 //            int[] parents_positions = rouletteWheelSelection(2);
 //            crossoverAverage2(population.get(parents_positions[0]), population.get(parents_positions[1]));
 
-            int[] parents_positions =  tournamentSelection(3,10);
+            int[] parents_positions =  tournamentSelection(3,13);
 
 //            int[] parents_positions = rouletteWheelSelection(3);
 
-//            if( !related( population.get(parents_positions[0]),population.get(parents_positions[1]))
-//                    &&
-//                    !related( population.get(parents_positions[1]),population.get(parents_positions[2]))
-//                    &&
-//                    !related( population.get(parents_positions[0]),population.get(parents_positions[2]))
-//
-//                    )
-                crossover3(population.get(parents_positions[0]), population.get(parents_positions[1]),population.get(parents_positions[2]));
+            if( !related( population.get(parents_positions[0]),population.get(parents_positions[1]))
+                    &&
+                    !related( population.get(parents_positions[1]),population.get(parents_positions[2]))
+                    &&
+                    !related( population.get(parents_positions[0]),population.get(parents_positions[2]))
 
-//            population.remove(population.get(parents_positions[0]));population_size--;
-//            population.remove(population.get(parents_positions[1]));population_size--;
-//            population.remove(population.get(parents_positions[2]));population_size--;
+                    ) {
+                crossover3( population.get(parents_positions[0]),
+                        population.get(parents_positions[1]),
+                        population.get(parents_positions[2]));
 
+                population.remove(population.get(parents_positions[0]));
+                population_size--;
+                population.remove(population.get(parents_positions[1]));
+                population_size--;
+                population.remove(population.get(parents_positions[2]));
+                population_size--;
+            }
 
 
 //            int[] parents_positions = rouletteWheelSelection(10);
@@ -338,20 +343,25 @@ public class player13 implements ContestSubmission
 
     private int[] tournamentSelection(int number_of_parents,int slice){
         int[] parents_positions = new int[number_of_parents];
-        int k = 0;
+
+        int parent_index = 0;
+        int k =0;
         while( k < number_of_parents) {
-            int count = slice;
+            double[] fitnesses = new double[slice];
+            int[] indexes = new int[slice];
+            for (int i = 0; i < slice; i++) {
+                indexes[i] = randInt(0, population_size);
+            }
 
-            double parent_fitness =0;
-            int parent_index = 0;
-            for (int i = 0 ; i < count;i++){
-                int random_number = randInt(0,population_size);
-//                System.out.println(random_number);
-//                System.out.println(parent_fitness);
+            for (int i = 0; i < slice; i++) {
+                fitnesses[i] = population.get(indexes[i]).getFitness();
+            }
 
-                if(population.get(random_number).getFitness() >= parent_fitness) {
-                    parent_fitness = population.get(random_number).getFitness();
-                    parent_index = i;
+            double best_fit = 0;
+            for (int i = 0; i < slice; i++) {
+                if (fitnesses[i] > best_fit) {
+                    best_fit = fitnesses[i];
+                    parent_index = indexes[i];
                 }
             }
 
@@ -365,7 +375,35 @@ public class player13 implements ContestSubmission
                 k++;
             }
 
+
         }
+//        int k = 0;
+//        while( k < number_of_parents) {
+//            int count = slice;
+//
+//            double parent_fitness =0;
+//            int parent_index = 0;
+//            for (int i = 0 ; i < count;i++){
+//                int random_number = randInt(0,population_size);
+//                System.out.println("rnd no "+random_number + " fit " + parent_fitness + " ");
+//
+//                if(population.get(random_number).getFitness() >= parent_fitness) {
+//                    parent_fitness = population.get(random_number).getFitness();
+//                    parent_index = i;
+//                }
+//            }
+//
+//            boolean unique = true;
+//            for (int  i = 0 ; i < number_of_parents;i++){
+//                if(parents_positions[i] == parent_index) unique = false;
+//            }
+//            if (unique) {
+//                parents_positions[k] = parent_index;
+////                System.out.println(parent_index + " fitness " + population.get(parent_index).getFitness());
+//                k++;
+//            }
+//
+//        }
         return parents_positions;
     }
 
@@ -515,7 +553,7 @@ public class player13 implements ContestSubmission
             if (parent1.getAlleleAtIndex(i) == parent2.getAlleleAtIndex(i))
                 count++;
         }
-        if (count > 5)
+        if (count > 10)
             return true;
         else
             return false;
