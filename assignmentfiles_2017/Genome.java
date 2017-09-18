@@ -1,23 +1,33 @@
+import java.util.Arrays;
+
 /**
  * Created by arash on 9/14/17.
  */
-public class Genome {
+public class Genome  implements Comparable<Genome> {
+
     private double[] alleles;
-    private double fittness;
+    private double fitness;
     private boolean evaluated;
 
-    public Genome(double[] alleles, double fittness, boolean evaluated) {
+    public Genome(double[] alleles, double fitness, boolean evaluated) {
         this.alleles = alleles;
-        this.fittness = fittness;
+        this.fitness = fitness;
         this.evaluated = evaluated;
     }
 
     public Genome(){
         alleles = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         this.alleles = alleles;
-        this.fittness = -999999999;
+        this.fitness = -999999999;
         this.evaluated = false;
     }
+
+    @Override
+    public int compareTo(Genome o) {
+        return Double.compare(fitness , o.getFitness()) ;
+    }
+
+
 
     public double[] getAlleles() {
         return alleles;
@@ -33,12 +43,12 @@ public class Genome {
         this.alleles[index] = allele;
     }
 
-    public double getFittness() {
-        return fittness;
+    public double getFitness() {
+        return fitness;
     }
 
-    public void setFittness(double fittness) {
-        this.fittness = fittness;
+    public void setFitness(double fitness) {
+        this.fitness = fitness;
     }
 
     public boolean isEvaluated() {
@@ -47,5 +57,18 @@ public class Genome {
 
     public void setEvaluated(boolean evaluated) {
         this.evaluated = evaluated;
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+        s = "Genome{" +
+                "genome=" + Arrays.toString(alleles) +
+                ", fitness=" + fitness +
+//                ", mutation_rate=" + mutation_rate +
+//                ", mutation_pobability=" + mutation_probability_genome +
+                '}';
+
+        return s;
     }
 }
