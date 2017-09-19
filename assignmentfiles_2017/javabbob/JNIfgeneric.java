@@ -175,7 +175,6 @@ public class JNIfgeneric {
      * @param args the command line arguments
 
     public static void main(String[] args) {
-        // TODO code application logic here
 
         int dim = 10;
         double[] X = new double[dim];

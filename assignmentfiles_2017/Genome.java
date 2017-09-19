@@ -18,7 +18,7 @@ public class Genome  implements Comparable<Genome> {
     public Genome(){
         alleles = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         this.alleles = alleles;
-        this.fitness = -999999999;
+        this.fitness = 0;
         this.evaluated = false;
     }
 
