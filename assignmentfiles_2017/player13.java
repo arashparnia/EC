@@ -94,10 +94,10 @@ public class player13 implements ContestSubmission
 
 
             genome_mutation_chance = 0.01;
-            allele_mutation_chance = 0.1;
-            mutation_step = 0.5;
+            allele_mutation_chance = 0.5;
+            mutation_step = 0.1;
 
-            cooling_rate = 0.00001;
+            cooling_rate = 0.000009;
 
             tournamentSelection_slice = 400;
 
