@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Created by arash on 9/14/17.
@@ -8,11 +9,13 @@ public class Genome  implements Comparable<Genome> {
     private double[] alleles;
     private double fitness;
     private boolean evaluated;
+    private double mutation_rate;
 
-    public Genome(double[] alleles, double fitness, boolean evaluated) {
+    public Genome(double[] alleles, double fitness, boolean evaluated,double mutation_rate) {
         this.alleles = alleles;
         this.fitness = fitness;
         this.evaluated = evaluated;
+        this.mutation_rate = mutation_rate;
     }
 
     public Genome(){
@@ -20,6 +23,7 @@ public class Genome  implements Comparable<Genome> {
         this.alleles = alleles;
         this.fitness = 0;
         this.evaluated = false;
+        this.mutation_rate = 0.5;
     }
 
     @Override
@@ -57,6 +61,14 @@ public class Genome  implements Comparable<Genome> {
 
     public void setEvaluated(boolean evaluated) {
         this.evaluated = evaluated;
+    }
+
+    public double getMutation_rate() {
+        return mutation_rate;
+    }
+
+    public void setMutation_rate(double mutation_rate) {
+        this.mutation_rate = mutation_rate;
     }
 
     @Override

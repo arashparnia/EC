@@ -3,6 +3,7 @@ import org.vu.contest.ContestEvaluation;
 
 
 import java.lang.reflect.Array;
+import java.security.cert.TrustAnchor;
 import java.util.*;
 
 
@@ -44,18 +45,18 @@ public class player13 implements ContestSubmission
         hasStructure = Boolean.parseBoolean(props.getProperty("Regular"));
         isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
 
-        System.out.println("***********************************************************************************");
-        System.out.println("Algorithm properties");
-        System.out.println("***********************************************************************************");
-
-        System.out.println("properties " + props.toString());
-        System.out.println("evaluations_limit_ " + evaluations_limit_);
-        System.out.println("isMultimodal " + isMultimodal);
-        System.out.println("hasStructure " + hasStructure);
-        System.out.println("isSeparable "   + isSeparable);
-
-        System.out.println("***********************************************************************************");
-        System.out.println("***********************************************************************************");
+//        System.out.println("***********************************************************************************");
+//        System.out.println("Algorithm properties");
+//        System.out.println("***********************************************************************************");
+//
+//        System.out.println("properties " + props.toString());
+//        System.out.println("evaluations_limit_ " + evaluations_limit_);
+//        System.out.println("isMultimodal " + isMultimodal);
+//        System.out.println("hasStructure " + hasStructure);
+//        System.out.println("isSeparable "   + isSeparable);
+//
+//        System.out.println("***********************************************************************************");
+//        System.out.println("***********************************************************************************");
 
         // Do sth with property values, e.g. specify relevant settings of your algorithm
 
@@ -86,6 +87,8 @@ public class player13 implements ContestSubmission
 
 //*************************************************************************************************
 
+    //
+
 	public void run()
 	{
         if(isMultimodal){ //KatsuuraEvaluation
@@ -93,35 +96,35 @@ public class player13 implements ContestSubmission
             init_range = 1;
 
 
-            genome_mutation_chance = 0.01;
-            allele_mutation_chance = 0.5;
-            mutation_step = 0.1;
+            genome_mutation_chance = 0.8;
+            allele_mutation_chance = 0.8;
+            mutation_step = 0.5;
 
-            cooling_rate = 0.000009;
+            cooling_rate = 0.000001;
 
-            tournamentSelection_slice = 400;
+            tournamentSelection_slice = 600;
 
             if (hasStructure){ //SchaffersEvaluation
                 population_size = 1000;
                 init_range = 1;
 
                 genome_mutation_chance = 0.01;
-                allele_mutation_chance = 0.9;
-                mutation_step = 0.5;
+                allele_mutation_chance = 0.01;
+                mutation_step = 5;
 
-                cooling_rate = 0.00001;
+                cooling_rate = 0.0001;
 
-                tournamentSelection_slice = 100;
+                tournamentSelection_slice = 200;
             }
         }else{ // Bentcigar Fucntion
             population_size = 100;
             init_range = 1;
 
-            genome_mutation_chance = 0.01;
+            genome_mutation_chance = 0.02;
             allele_mutation_chance = 0.05;
-            mutation_step = 0.6;
+            mutation_step = 1;
 
-            cooling_rate = 0.00001;
+            cooling_rate = 0.001;
 
             tournamentSelection_slice = 40;
         }
@@ -137,131 +140,90 @@ public class player13 implements ContestSubmission
 		initPopulation();
 
 
-		previous_elite = population.get(0);
+//		previous_elite = population.get(0);
 
 
 
 		// calculate fitness
 		double best_fitness = 0;
+		elite = new Genome();
 		while(evals< evaluations_limit_){
 //            if (elite != null)population.remove(elite);population_size--;
 			// for every Genome in population loop
             for (Genome genome : population){
 				// Check fitness of unknown fuction
                 if (!genome.isEvaluated() && evals< evaluations_limit_) {
-                    // System.out.println(Arrays.toString(genome.getAlleles()));
                     double fitness = (double) evaluation_.evaluate(genome.getAlleles());
                     genome.setFitness(fitness);
                     genome.setEvaluated(true);
                     if (fitness > best_fitness) {
                         best_fitness = fitness;
-                        elite = genome;
+                        elite.setAlleles(genome.getAlleles());
+                        elite.setMutation_rate(genome.getMutation_rate());
+                        elite.setFitness(genome.getFitness());
+                        elite.setEvaluated(true);
+
                     }
                     mutation_step *= 1 - cooling_rate;
                     evals++;
                 }
 			}
-            System.out.println("Generation:" + generations +
-                    " population:" + population_size+  " mutation_step:" + String.format("%.20f",mutation_step) +
-                    " evaluations:" + evals +" fitness:" + String.format("%.20f",best_fitness) );
+//            System.out.println("Generation:" + generations +
+//                    " population:" + population_size+  " mutation_step:" + String.format("%.20f",mutation_step) +
+//                    " evaluations:" + evals +" fitness:" + String.format("%.20f",best_fitness) );
 
 
-            if (!isMultimodal) {
-                int[] parents_positions = tournamentSelection(3, tournamentSelection_slice);
 
 
-                if (!related(population.get(parents_positions[0]), population.get(parents_positions[1]))
-                        &&
-                        !related(population.get(parents_positions[1]), population.get(parents_positions[2]))
-                        &&
-                        !related(population.get(parents_positions[0]), population.get(parents_positions[2]))
 
-                        ) {
-                    crossover3(population.get(parents_positions[0]),
+            if (!isMultimodal) { //BentCigar
+
+                int[] parents_positions = tournamentSelection(4, tournamentSelection_slice);
+
+                    differentialCrossover(  population.get(parents_positions[0]),
                             population.get(parents_positions[1]),
-                            population.get(parents_positions[2]));
-
+                            population.get(parents_positions[2]),
+                            population.get(parents_positions[3]) ,
+                            0.1);
                     population.remove(population.get(parents_positions[0]));
                     population_size--;
                     population.remove(population.get(parents_positions[1]));
                     population_size--;
                     population.remove(population.get(parents_positions[2]));
                     population_size--;
-                }
+                    population.remove(population.get(parents_positions[3]));
+                    population_size--;
+
             }else{
-                if (hasStructure){
-//                    int[] parents_positions = rouletteWheelSelection(2);
-//                    crossoverAverage2(population.get(parents_positions[0]), population.get(parents_positions[1]));
-//                System.out.println("----------------------------------------------------------------------------------");
-                    int[] parents_positions = tournamentSelection(3, tournamentSelection_slice);
-                    if (!related(population.get(parents_positions[0]), population.get(parents_positions[1]))
-                            &&
-                            !related(population.get(parents_positions[1]), population.get(parents_positions[2]))
-                            &&
-                            !related(population.get(parents_positions[0]), population.get(parents_positions[2]))
-                            ) {
-                        crossover3(population.get(parents_positions[0]),
+                if (hasStructure){ //SchaffersEvaluation
+                    int[] parents_positions = tournamentSelection(4, tournamentSelection_slice);
+                     differentialCrossover(  population.get(parents_positions[0]),
                                 population.get(parents_positions[1]),
-                                population.get(parents_positions[2]));
+                                population.get(parents_positions[2]),
+                                population.get(parents_positions[3]) ,
+                                0.2);
+                    population.remove(population.get(parents_positions[0]));
+                    population_size--;
+                    population.remove(population.get(parents_positions[1]));
+                    population_size--;
+                    population.remove(population.get(parents_positions[2]));
+                    population_size--;
+                    population.remove(population.get(parents_positions[3]));
+                    population_size--;
 
-                        population.remove(population.get(parents_positions[0]));
-                        population_size--;
-                        population.remove(population.get(parents_positions[1]));
-                        population_size--;
-                        population.remove(population.get(parents_positions[2]));
-                        population_size--;
-                    }
-                }else {
-                    int[] parents_positions = tournamentSelection(3, tournamentSelection_slice);
-                    if (!related(population.get(parents_positions[0]), population.get(parents_positions[1]))
-                            &&
-                            !related(population.get(parents_positions[1]), population.get(parents_positions[2]))
-                            &&
-                            !related(population.get(parents_positions[0]), population.get(parents_positions[2]))
-                            ) {
-                        crossover3(population.get(parents_positions[0]),
-                                population.get(parents_positions[1]),
-                                population.get(parents_positions[2]));
-
-                        population.remove(population.get(parents_positions[0]));
-                        population_size--;
-                        population.remove(population.get(parents_positions[1]));
-                        population_size--;
-                        population.remove(population.get(parents_positions[2]));
-                        population_size--;
-                    }
+                }else { //KatsuuraEvaluation
+                    int[] parents_positions = rouletteWheelSelection(2);
+                    crossoverAverage2(population.get(parents_positions[0]), population.get(parents_positions[1]));
+                    removeWorst(2);
                 }
             }
 
 
-//            int[] parents_positions = tournamentSelection(10, tournamentSelection_slice);
-////            int[] parents_positions = rouletteWheelSelection(10);
-//                Genome[] genomes = {
-//                        population.get(parents_positions[0]) ,
-//                    population.get(parents_positions[1]),
-//                    population.get(parents_positions[2]),
-//                    population.get(parents_positions[3]),
-//                    population.get(parents_positions[4]),
-//                    population.get(parents_positions[5]),
-//                    population.get(parents_positions[6]),
-//                    population.get(parents_positions[7]),
-//                    population.get(parents_positions[8]),
-//                    population.get(parents_positions[9])
-//
-//                };
-//
-//                crossoverAverageN(genomes ,10);
-
-
-
-
-
             population.add(elite);
             population_size++;
+            removeWorst(1);
 
 
-
-//            mutation_step = mutation_step - cooling_rate ;
             mutatePopulation();
 
 
@@ -287,16 +249,20 @@ public class player13 implements ContestSubmission
 
                 genome.setAlleleAtIndex((init_range * (1-rnd_.nextDouble())),j);
             }
+             genome.setMutation_rate( rnd_.nextDouble());
+
         }
 
 	}
+	//todo: add mutation addition vector
+
 
     public void mutatePopulation() {
         boolean mutated = false;
         for (Genome genome : population) {
             if (rnd_.nextDouble() < genome_mutation_chance) {
                 for (int j = 0; j < genome_size; j++) {
-                    if (rnd_.nextDouble() < allele_mutation_chance) {
+                    if (rnd_.nextDouble() < genome.getMutation_rate()) {
                         if (rnd_.nextBoolean())
                             genome.setAlleleAtIndex(genome.getAlleleAtIndex(j) + ((rnd_.nextDouble()) * mutation_step), j);
                         else
@@ -311,6 +277,16 @@ public class player13 implements ContestSubmission
     }
 
 
+    private void removeWorst(int size){
+	    Genome worst = new Genome();
+        double low = 11 ;
+        for (int k = 0 ; k < size;k++) {
+            for (Genome g : population){
+                if (g.getFitness() < low) {worst = g;low = g.getFitness();}
+            }
+            population.remove(worst); population_size--;
+        }
+    }
 
 
 
@@ -428,8 +404,8 @@ public class player13 implements ContestSubmission
         }
 
 
-        Genome child0 = new Genome(child0_array,0,false);
-        Genome child1 = new Genome(child1_array,0,false);
+        Genome child0 = new Genome(child0_array,0,false,0);
+        Genome child1 = new Genome(child1_array,0,false,0);
 
         population.add(child0);population_size++;
         population.add(child1);population_size++;
@@ -466,8 +442,8 @@ public class player13 implements ContestSubmission
             }
         }
 
-        Genome child0 = new Genome(child0_array,0,false);
-        Genome child1 = new Genome(child1_array,0,false);
+        Genome child0 = new Genome(child0_array,0,false,0);
+        Genome child1 = new Genome(child1_array,0,false,0);
 
         population.add(child0);population_size++;
         population.add(child1);population_size++;
@@ -505,13 +481,70 @@ public class player13 implements ContestSubmission
             }
         }
 
-        Genome child0 = new Genome(child0_array,0,false);
-        Genome child1 = new Genome(child1_array,0,false);
-        Genome child2 = new Genome(child2_array,0,false);
+        Genome child0 = new Genome(child0_array,0,false,0);
+        Genome child1 = new Genome(child1_array,0,false,0);
+        Genome child2 = new Genome(child2_array,0,false,0);
 
         population.add(child0);population_size++;
         population.add(child1);population_size++;
         population.add(child2);population_size++;
+    }
+
+    private void uniformCrossover(Genome parent1, Genome parent2){
+        for (int i = 0 ; i < genome_size ; i++){
+            if (rnd_.nextBoolean()) {
+                parent1.setAlleleAtIndex(parent2.getAlleleAtIndex(i),i);
+            } else {
+                parent2.setAlleleAtIndex(parent1.getAlleleAtIndex(i),i);
+            }
+        }
+    }
+
+
+    private void differentialCrossover(Genome parent0 , Genome parent1,Genome parent2, Genome parent3,double scaling_factor){
+
+
+        double[] parent0_array = parent0.getAlleles();
+        double[] parent1_array = parent1.getAlleles();
+        double[] parent2_array = parent2.getAlleles();
+        double[] parent3_array = parent3.getAlleles();
+
+        double[] child0_array = new double[genome_size];
+        double[] child1_array = new double[genome_size];
+        double[] child2_array = new double[genome_size];
+        double[] child3_array = new double[genome_size];
+
+        for (int i = 0; i < genome_size; i++) {
+            if (rnd_.nextBoolean()) {
+                child0_array[i] = parent0_array[i];
+                child1_array[i] = parent0_array[i];
+                child2_array[i] = parent1_array[i];
+                child3_array[i] = parent1_array[i];
+            }
+            else {
+                child0_array[i] = parent1_array[i];
+                child1_array[i] = parent1_array[i];
+                child2_array[i] = parent0_array[i];
+                child3_array[i] = parent0_array[i];
+
+            }
+
+            child0_array[i] = child0_array[i] + ((parent2_array[i] - parent3_array[i]) * scaling_factor);
+            child1_array[i] = child1_array[i] + ((parent3_array[i] - parent2_array[i]) * scaling_factor);
+            child2_array[i] = child2_array[i] + ((parent2_array[i] - parent3_array[i]) * scaling_factor);
+            child3_array[i] = child3_array[i] + ((parent3_array[i] - parent2_array[i]) * scaling_factor);
+        }
+
+        Genome child0 = new Genome(child0_array,0,false,parent0.getMutation_rate());
+        Genome child1 = new Genome(child1_array,0,false,parent1.getMutation_rate());
+        Genome child2 = new Genome(child2_array,0,false,parent2.getMutation_rate());
+        Genome child3 = new Genome(child3_array,0,false,parent3.getMutation_rate());
+
+
+        population.add(child0);population_size++;
+        population.add(child1);population_size++;
+        population.add(child2);population_size++;
+        population.add(child3);population_size++;
     }
 
     private void crossoverAverageN(Genome[] genomes, int N){
@@ -527,7 +560,7 @@ public class player13 implements ContestSubmission
             child_array[i] = avg;
         }
 
-        Genome child0 = new Genome(child_array,0,false);
+        Genome child0 = new Genome(child_array,0,false,0);
 
         population.add(child0);population_size++;
     }
@@ -554,4 +587,32 @@ public class player13 implements ContestSubmission
 
 }
 
+
+/*
+exam answer
+
+graph coloring problem
+
+connected nodes should have different colors
+
+constraint satisfaction problem
+x<x1,x2,x3,...,xn> = <r,b,r,g,b,y,r,..>
+E={(1,2) , (1,3) , (2,4) , ...} and calculate the connected nodes if they have same color or not
+2
+4
+you have more information because yu have more edges than nodes so the first one is better
+string array
+single point , multipoint , uniform
+random reset,
+tournament
+random
+when solution found
+
+ from permutatin  try to fill  each node by rgb
+
+
+
+
+
+ */
 
