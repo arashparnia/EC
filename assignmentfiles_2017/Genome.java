@@ -10,12 +10,18 @@ public class Genome  implements Comparable<Genome> {
     private double fitness;
     private boolean evaluated;
     private double mutation_rate;
+    private double mutation_step;
+    private int age;
+    public Genome[] parents = new Genome[4];
 
-    public Genome(double[] alleles, double fitness, boolean evaluated,double mutation_rate) {
+    public Genome(double[] alleles, double fitness, boolean evaluated,double mutation_rate,double mutation_step) {
         this.alleles = alleles;
         this.fitness = fitness;
         this.evaluated = evaluated;
         this.mutation_rate = mutation_rate;
+        this.mutation_step = mutation_step;
+        this.age = 0;
+
     }
 
     public Genome(){
@@ -24,13 +30,14 @@ public class Genome  implements Comparable<Genome> {
         this.fitness = 0;
         this.evaluated = false;
         this.mutation_rate = 0.5;
+        this.mutation_step = 0.5;
+        this.age = 0;
     }
 
     @Override
     public int compareTo(Genome o) {
         return Double.compare(fitness , o.getFitness()) ;
     }
-
 
 
     public double[] getAlleles() {
@@ -70,7 +77,34 @@ public class Genome  implements Comparable<Genome> {
     public void setMutation_rate(double mutation_rate) {
         this.mutation_rate = mutation_rate;
     }
+    public double getMutation_step() {
+        return mutation_step;
+    }
 
+    public void setMutation_step(double mutation_step) {
+        this.mutation_step = mutation_step;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void age(){
+        this.age++;
+    }
+    public void mutateAllele(int index){
+        alleles[index] += mutation_step;
+    }
+
+
+    public void  resetAge(){
+        this.age=0;
+        this.parents = new Genome[4];
+    }
     @Override
     public String toString() {
         String s = "";
