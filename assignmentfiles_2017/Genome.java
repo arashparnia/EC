@@ -13,15 +13,17 @@ public class Genome  implements Comparable<Genome> {
     private double[] mutation_step = new double[10];
     private int age;
     public Genome[] parents = new Genome[4];
+    private int[] race = new int[10];
 
-    public Genome(double[] alleles, double fitness, boolean evaluated,double mutation_rate,double[] mutation_step) {
+
+    public Genome(double[] alleles, double fitness, boolean evaluated,double mutation_rate,double[] mutation_step,int[] race) {
         this.alleles = alleles;
         this.fitness = fitness;
         this.evaluated = evaluated;
         this.mutation_rate = mutation_rate;
         this.mutation_step = mutation_step;
         this.age = 0;
-
+        this.race = race;
     }
 
     public Genome(){
@@ -32,6 +34,7 @@ public class Genome  implements Comparable<Genome> {
         this.mutation_rate = 0;
         this.mutation_step = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         this.age = 0;
+        this.race = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     }
 
     @Override
@@ -78,20 +81,31 @@ public class Genome  implements Comparable<Genome> {
         this.mutation_rate = mutation_rate;
     }
 
+
     public double getMutation_step_atIndex(int index) {
         return mutation_step[index];
-    }
-
-    public void setMutation_step_atIndex(double mutation_step,int index) {
-        this.mutation_step[index] = mutation_step;
     }
     public double[] getMutation_step() {
         return mutation_step;
     }
 
+    public void setMutation_step_atIndex(double mutation_step,int index) {
+        this.mutation_step[index] = mutation_step;
+    }
     public void setMutation_step(double[] mutation_step) {
         this.mutation_step = mutation_step;
     }
+
+
+    public int[] getRace() {
+        return race;
+    }
+
+    public void setRace(int[] race) {
+        this.race = race;
+    }
+
+
 
     public int getAge() {
         return age;
