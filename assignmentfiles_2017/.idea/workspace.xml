@@ -30,11 +30,38 @@
       <file leaf-file-name="player13.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/player13.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="97" column="28" lean-forward="true" selection-start-line="97" selection-start-column="28" selection-end-line="97" selection-end-column="28" />
+            <state relative-caret-position="540">
+              <caret line="138" column="42" lean-forward="false" selection-start-line="138" selection-start-column="42" selection-end-line="138" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2903#2911#0" expanded="true" />
+                <element signature="e#264#265#0" expanded="true" />
+                <element signature="e#290#291#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Population.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Population.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="52" column="29" lean-forward="false" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="29" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#678#679#0" expanded="true" />
+                <element signature="e#711#712#0" expanded="true" />
+                <element signature="e#774#775#0" expanded="true" />
+                <element signature="e#818#819#0" expanded="true" />
+                <element signature="e#857#858#0" expanded="true" />
+                <element signature="e#895#896#0" expanded="true" />
+                <element signature="e#954#955#0" expanded="true" />
+                <element signature="e#1008#1009#0" expanded="true" />
+                <element signature="e#1044#1045#0" expanded="true" />
+                <element signature="e#1082#1083#0" expanded="true" />
+                <element signature="e#1116#1117#0" expanded="true" />
+                <element signature="e#1160#1161#0" expanded="true" />
+                <element signature="e#1340#1341#0" expanded="true" />
+                <element signature="e#1387#1388#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -43,8 +70,8 @@
       <file leaf-file-name="Genome.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Genome.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" column="21" lean-forward="false" selection-start-line="35" selection-start-column="21" selection-end-line="35" selection-end-column="21" />
+            <state relative-caret-position="1350">
+              <caret line="132" column="26" lean-forward="false" selection-start-line="132" selection-start-column="26" selection-end-line="132" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -55,8 +82,8 @@
       <file leaf-file-name="test" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+            <state relative-caret-position="90">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -82,8 +109,8 @@
         <option value="$PROJECT_DIR$/genome.java" />
         <option value="$PROJECT_DIR$/javabbob/JNIfgeneric.java" />
         <option value="$PROJECT_DIR$/GenomeAdapt.java" />
-        <option value="$PROJECT_DIR$/Population.java" />
         <option value="$PROJECT_DIR$/Genome.java" />
+        <option value="$PROJECT_DIR$/Population.java" />
         <option value="$PROJECT_DIR$/test" />
         <option value="$PROJECT_DIR$/player13.java" />
       </list>
@@ -552,12 +579,12 @@
       <updated>1505381480656</updated>
       <workItem from="1505381483398" duration="130059000" />
       <workItem from="1506585186244" duration="25814000" />
-      <workItem from="1506679293429" duration="13649000" />
+      <workItem from="1506679293429" duration="21962000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="169522000" />
+    <option name="totallyTimeSpent" value="177835000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -626,7 +653,8 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2903#2911#0" expanded="true" />
+            <element signature="e#264#265#0" expanded="true" />
+            <element signature="e#290#291#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -657,14 +685,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GenomeAdapt.java" />
-    <entry file="file://$PROJECT_DIR$/Population.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="42" lean-forward="true" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MainClass.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -675,8 +695,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Genome.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="21" lean-forward="false" selection-start-line="35" selection-start-column="21" selection-end-line="35" selection-end-column="21" />
+        <state relative-caret-position="1350">
+          <caret line="132" column="26" lean-forward="false" selection-start-line="132" selection-start-column="26" selection-end-line="132" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -685,19 +705,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        <state relative-caret-position="90">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Population.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="52" column="29" lean-forward="false" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#678#679#0" expanded="true" />
+            <element signature="e#711#712#0" expanded="true" />
+            <element signature="e#774#775#0" expanded="true" />
+            <element signature="e#818#819#0" expanded="true" />
+            <element signature="e#857#858#0" expanded="true" />
+            <element signature="e#895#896#0" expanded="true" />
+            <element signature="e#954#955#0" expanded="true" />
+            <element signature="e#1008#1009#0" expanded="true" />
+            <element signature="e#1044#1045#0" expanded="true" />
+            <element signature="e#1082#1083#0" expanded="true" />
+            <element signature="e#1116#1117#0" expanded="true" />
+            <element signature="e#1160#1161#0" expanded="true" />
+            <element signature="e#1340#1341#0" expanded="true" />
+            <element signature="e#1387#1388#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/player13.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="97" column="28" lean-forward="true" selection-start-line="97" selection-start-column="28" selection-end-line="97" selection-end-column="28" />
+        <state relative-caret-position="540">
+          <caret line="138" column="42" lean-forward="false" selection-start-line="138" selection-start-column="42" selection-end-line="138" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2903#2911#0" expanded="true" />
+            <element signature="e#264#265#0" expanded="true" />
+            <element signature="e#290#291#0" expanded="true" />
           </folding>
         </state>
       </provider>

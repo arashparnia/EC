@@ -81,11 +81,11 @@ public class player13 implements ContestSubmission
     private double cooling_rate = 0.0001;
 
     int tournamentSelection_slice = 40;
-
+    int cutoff = population_max/2;
 
     int race_limit = 1;
 //    private int tournoment_size = 2;
-    private ArrayList<Genome> population=new ArrayList<Genome>();
+    private Population population ;
 	private Genome elite;
 //    private Genome  previous_elite;
     private double last_fitness=0;
@@ -95,9 +95,9 @@ public class player13 implements ContestSubmission
 
 //*************************************************************************************************
 
-    private double evaluate(){
+    private double evaluate(Population population){
         double best_fitness = 0;
-        for (Genome genome : population) {
+        for (Genome genome : population.getPopulation()) {
             // Check fitness of unknown fuction
             if (!genome.isEvaluated() && evals < evaluations_limit_) {
                 double fitness = (double) evaluation_.evaluate(genome.getAlleles());
@@ -135,6 +135,8 @@ public class player13 implements ContestSubmission
                 tournamentSelection_slice = 100;
 
                 race_limit = 2;
+
+                cutoff = population_max/10;
             }
 
             if (isMultimodal && hasStructure) { //SchaffersEvaluation
@@ -154,7 +156,7 @@ public class player13 implements ContestSubmission
                     tournamentSelection_slice = 50;
 
                     race_limit = 2;
-
+                cutoff = population_max/2;
             }
 
             if(isMultimodal && !hasStructure) { //KatsuuraEvaluation
@@ -174,11 +176,12 @@ public class player13 implements ContestSubmission
                 tournamentSelection_slice = 50;
 
                 race_limit = 2;
+                cutoff = population_max/2;
             }
 
 
 
-
+            population = new Population(population_max);
 
 //         evaluations_limit_ = 100;
 
@@ -186,8 +189,8 @@ public class player13 implements ContestSubmission
 
             // init population
             //declaring populaton
-            initPopulation();
-            splitPopulation();
+            population.initPopulation(genome_size,init_range,mutation_step,allele_mutation_chance);
+            population.splitPopulation(race_limit);
 
             // calculate fitness
 
@@ -195,7 +198,7 @@ public class player13 implements ContestSubmission
 
             while (evals < evaluations_limit_) {
 
-                double best_fitness = evaluate();
+                double best_fitness = evaluate(population);
 
                 if (best_fitness == last_fitness) same_fitness++;
 //                double f =
@@ -204,9 +207,9 @@ public class player13 implements ContestSubmission
 //                    " evaluations:" + evals +" fitness:" + String.format("%.20f",best_fitness) );
 
 //            if (evals % 1000 == 0 )
-//                System.out.println("Generation:" + generations +
-//                        " population:" + population_size +
-//                        " evaluations:" + evals + " fitness:" + String.format("%.20f", best_fitness));
+                System.out.println("Generation:" + generations +
+                        " population:" + population_size +
+                        " evaluations:" + evals + " fitness:" + String.format("%.20f", best_fitness));
 
 
                 if (!isMultimodal) { //BentCigar
@@ -214,14 +217,14 @@ public class player13 implements ContestSubmission
 //                    removeOld();
                         int[] parents_;
                         if (same_fitness == 1000) {
-                            parents_ = tournamentSelection(40, tournamentSelection_slice);
+                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice);
                             same_fitness =0;
                         }
                         else
-                            parents_ = tournamentSelection(40, tournamentSelection_slice,randInt(0,race_limit-1));
+                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice,randInt(0,race_limit-1));
 
                         int i=0;
-                        while (i < 40) {
+                        while (i < cutoff) {
                             int[] parents_positions = {parents_[i+0], parents_[i+1], parents_[i+2], parents_[i+3]};
 
                             i+=4;
@@ -243,7 +246,7 @@ public class player13 implements ContestSubmission
                                         !isRelated(population.get(parents_positions[1]).parents, population.get(parents_positions[3])) &&
                                         !isRelated(population.get(parents_positions[2]).parents, population.get(parents_positions[3]))
                                 )
-                            differentialCrossover(population,population.get(parents_positions[0]),
+                            differentialCrossover(population.getPopulation(),population.get(parents_positions[0]),
                                     population.get(parents_positions[1]),
                                     population.get(parents_positions[2]),
                                     population.get(parents_positions[3]),
@@ -262,19 +265,19 @@ public class player13 implements ContestSubmission
 
                         int[] parents_;
                         if (same_fitness == 100) {
-                            parents_ = tournamentSelection(10, tournamentSelection_slice);
+                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice);
                             same_fitness =0;
                         }
                         else
-                            parents_ = tournamentSelection(10, tournamentSelection_slice,randInt(0,race_limit-1));
+                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice,randInt(0,race_limit-1));
                         int i=0;
-                        while (i < 0) {
+                        while (i < cutoff) {
                             int[] parents_positions = {parents_[i+0], parents_[i+1], parents_[i+2], parents_[i+3]};
 
                             i+=4;
 
                           if(!isRelated(parents_positions))
-                                differentialCrossover(population,population.get(parents_positions[0]),
+                                differentialCrossover(population.getPopulation(),population.get(parents_positions[0]),
                                         population.get(parents_positions[1]),
                                         population.get(parents_positions[2]),
                                         population.get(parents_positions[3]),
@@ -297,15 +300,16 @@ public class player13 implements ContestSubmission
 
 //                        fittnessSharing(10);
 
+                        int cutoff = population_max/2;
                             int[] parents_;
                             if (same_fitness == 100) {
-                                parents_ = tournamentSelection(40, tournamentSelection_slice);
+                                parents_ = tournamentSelection(cutoff, tournamentSelection_slice);
                                 same_fitness =0;
                             }
                             else
-                                parents_ = tournamentSelection(40, tournamentSelection_slice,randInt(0,race_limit-1));
+                                parents_ = tournamentSelection(cutoff, tournamentSelection_slice,randInt(0,race_limit-1));
                         int i=0;
-                            while (i < 40) {
+                            while (i < cutoff) {
                             int[] parents_positions = {parents_[i+0], parents_[i+1], parents_[i+2], parents_[i+3]};
 
                             i+=4;
@@ -327,7 +331,7 @@ public class player13 implements ContestSubmission
                                             !isRelated(population.get(parents_positions[1]).parents, population.get(parents_positions[3])) &&
                                             !isRelated(population.get(parents_positions[2]).parents, population.get(parents_positions[3]))
                                     )
-                                differentialCrossover(population,population.get(parents_positions[0]),
+                                differentialCrossover(population.getPopulation(),population.get(parents_positions[0]),
                                         population.get(parents_positions[1]),
                                         population.get(parents_positions[2]),
                                         population.get(parents_positions[3]),
@@ -347,11 +351,13 @@ public class player13 implements ContestSubmission
                 }
 
 
-                mutatePopulation();
+                population.mutatePopulation(genome_mutation_chance);
 
+
+                population.removeSublist(population_max/2);
 
                 generations++;
-                for (Genome g : population) g.age();
+//                for (Genome g : population.getPopulation()) g.age();
 
 
             }
@@ -363,137 +369,40 @@ public class player13 implements ContestSubmission
         }
         //*************************************************************************************************
 
-	public void initPopulation()
-	{
-        for (int i = 0 ; i < population_size ; i++){
-
-            population.add(new Genome());
-        }
-        for (Genome genome: population) {
-            for (int j = 0; j < genome_size; j++) {
-
-                genome.setAlleleAtIndex((init_range * (rnd_.nextDouble() -0.5)),j);
-                genome.setMutation_step_atIndex((rnd_.nextDouble() - 0.5)   * mutation_step,j);
-            }
-             genome.setMutation_rate( rnd_.nextDouble() * allele_mutation_chance);
-//             genome.setMutation_step( (rnd_.nextDouble() - 0.5)   * mutation_step);
-//            double[] a = {-0.9858244722505388, 3.999176232240111, -0.042124887755302494, -3.6947898099101364, -0.15798503947882903, -2.0025428067422912, 1.313564593538192, -0.7562533345677892, 1.2623663203163324, -0.349182894330935};
-//            double[] b = {-0.93048292515929, 3.9948649712850046, 0.0849646806798547, -3.7573004022882786, -0.34321694328776, -2.0536289069143745, 1.354830646277407, -0.7428873166019453, 1.1918768257314292, -0.3224792439100581};
-//            genome.setAlleles(b);
-
-        }
 
 
-	}
-	private void splitPopulation(){
-
-        int[] population_races = new int[population_max];
-        int n =0;
-        for (int i= 0 ; i < population_max/race_limit-1;i++){
-            for (int j = 0 ; j < race_limit;j++){
-                n++;
-                population_races[n]=j;
-
-            }
-        }
-
-        shuffleArray(population_races);
-
-        n=0;
-        for (Genome genome: population) {
-            int[] r = {population_races[n]};
-            genome.setRace(r);
-            n++;
-        }
-    }
 
 
-    // Implementing Fisher–Yates shuffle
-    private void shuffleArray(int[] ar)
-    {
-        for (int i = ar.length - 1; i > 0; i--)
-        {
-            int index = rnd_.nextInt(i + 1);
-            // Simple swap
-            int a = ar[index];
-            ar[index] = ar[i];
-            ar[i] = a;
-        }
-    }
 
 	//todo: add mutation addition vector
 
 
-    public void mutatePopulation() {
-        boolean mutated = false;
-        for (Genome genome : population) {
-            if (rnd_.nextDouble() < genome_mutation_chance) {
-                for (int j = 0; j < genome_size; j++) {
-                    if (rnd_.nextDouble() < genome.getMutation_rate()) {
-//                        genome.mutateAllele(j);
-                        genome.resetAge();
-                        genome.setAlleleAtIndex(genome.getAlleleAtIndex(j)  + ((rnd_.nextDouble()-0.5)*0.001), j);
-                        mutated = true;
-                    }
-//                    genome.setAlleleAtIndex(checkAllele(genome.getAlleleAtIndex(j)),j);
-                }
-//                genome.setMutation_step(genome.getMutation_step() * ((rnd_.nextDouble()-0.5)*0.999999999));
-                if (mutated) genome.setEvaluated(false);
-                mutated = false;
-            }
-        }
-    }
 
-    private void removeOld(){
-        Iterator<Genome> i = population.iterator();
-        while (i.hasNext()) {
-            Genome g = i.next();
-            if(g.getAge() > life_expectancy ) {
-                i.remove();population_size--;
-            }
-        }
-//        while (population_size < population_max){
-//            Genome genome = elite;
-//            Genome genome = new Genome();
-//
-//            for (int j = 0; j < genome_size; j++) {
-//
-//                genome.setAlleleAtIndex((init_range * (rnd_.nextDouble() -0.5)),j);
-//                genome.setMutation_step_atIndex((rnd_.nextDouble() - 0.5)   * mutation_step,j);
+
+//    private void removeOld(){
+//        Iterator<Genome> i = population.iterator();
+//        while (i.hasNext()) {
+//            Genome g = i.next();
+//            if(g.getAge() > life_expectancy ) {
+//                i.remove();population_size--;
 //            }
-//            genome.setMutation_rate( rnd_.nextDouble() * allele_mutation_chance);
-//            population.add(genome);
-//            population_size++;
 //        }
-	}
+////        while (population_size < population_max){
+////            Genome genome = elite;
+////            Genome genome = new Genome();
+////
+////            for (int j = 0; j < genome_size; j++) {
+////
+////                genome.setAlleleAtIndex((init_range * (rnd_.nextDouble() -0.5)),j);
+////                genome.setMutation_step_atIndex((rnd_.nextDouble() - 0.5)   * mutation_step,j);
+////            }
+////            genome.setMutation_rate( rnd_.nextDouble() * allele_mutation_chance);
+////            population.add(genome);
+////            population_size++;
+////        }
+//	}
 
-    private void fittnessSharing(double σ){
 
-	    for (Genome i : population){
-            double sum = 0;
-            for (Genome j : population){
-               sum = sum +  sh(i.getAlleles(),j.getAlleles(),σ);
-            }
-            i.setFitness(i.getFitness() / sum);
-        }
-    }
-
-    private double sh(double[] i ,double[] j,double σ){
-
-    double d  = distance(i,j);
-    if (d <= σ)
-            return  1 - (d /σ);
-    else
-            return 0;
-    }
-
-    private double distance(double[] p, double[] q){
-        double d = 0;
-        for (int i = 0 ; i < genome_size ; i++){
-            d = d + Math.pow(p[i] - q[i],2);
-        }
-        return Math.sqrt(d);
-    }
 
 //todo: make punishment on fitneess
     private double checkAllele(double allele){
@@ -504,25 +413,7 @@ public class player13 implements ContestSubmission
     }
 
 
-    private void removeWorst(int size){
-//        Iterator<Genome> i = population.iterator();
-//        while (i.hasNext()) {
-//            Genome g = i.next();
-//            if(g.getAge() > life_expectancy && population_size > 10) {
-//                i.remove();population_size--;
-//                System.out.println("removed");
-//            }
-//        }
 
-	    Genome worst = new Genome();
-        double low = 11 ;
-        for (int k = 0 ; k < size;k++) {
-            for (Genome g : population){
-                if (g.getFitness() < low) {worst = g;low = g.getFitness();}
-            }
-            population.remove(worst); population_size--;
-        }
-    }
 
 
 

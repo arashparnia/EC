@@ -14,6 +14,7 @@ public class Genome  implements Comparable<Genome> {
     private int age;
     public Genome[] parents = new Genome[4];
     private int[] race = new int[10];
+    private Random rnd_ = new Random();
 
 
     public Genome(double[] alleles, double fitness, boolean evaluated,double mutation_rate,double[] mutation_step,int[] race) {
@@ -121,6 +122,15 @@ public class Genome  implements Comparable<Genome> {
 
     public void mutateAllele(int index){
         alleles[index] += mutation_step[index];
+    }
+
+    public void mutate(){
+        for (int i =0;i < 10;i++){
+//            alleles[i] += (rnd_.nextDouble()-0.5) * mutation_step[i];
+            alleles[i] += (rnd_.nextDouble()-0.5) ;
+        }
+        age=0;
+        evaluated = false;
     }
 
 
