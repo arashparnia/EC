@@ -124,14 +124,7 @@ public class Genome  implements Comparable<Genome> {
         alleles[index] += mutation_step[index];
     }
 
-    public void mutate(){
-        for (int i =0;i < 10;i++){
-//            alleles[i] += (rnd_.nextDouble()-0.5) * mutation_step[i];
-            alleles[i] += (rnd_.nextDouble()-0.5) ;
-        }
-        age=0;
-        evaluated = false;
-    }
+
 
 
     public void  resetAge(){
