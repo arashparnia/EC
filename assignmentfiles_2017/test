@@ -4,6 +4,6 @@ javac -cp contest.jar player13.java Genome.java
 jar cmf MainClass.txt submission.jar player13.class Genome.class
 
 # java -jar testrun.jar -submission=player13  -evaluation=SphereEvaluation -seed=0 #hasStructure and isSeparable
- #java -jar testrun.jar -submission=player13  -evaluation=BentCigarFunction -seed=0
-#java -jar testrun.jar -submission=player13  -evaluation=SchaffersEvaluation -seed=0 # isMultimodal and hasStructure
- java -jar testrun.jar -submission=player13  -evaluation=KatsuuraEvaluation -seed=0 #   isMultimodal
+# java -jar testrun.jar -submission=player13  -evaluation=BentCigarFunction -seed=0
+ java -jar testrun.jar -submission=player13  -evaluation=SchaffersEvaluation -seed=0 # isMultimodal and hasStructure
+# java -jar testrun.jar -submission=player13  -evaluation=KatsuuraEvaluation -seed=0 #   isMultimodal

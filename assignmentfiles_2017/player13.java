@@ -140,31 +140,30 @@ public class player13 implements ContestSubmission
             if (isMultimodal && hasStructure) { //SchaffersEvaluation
 
                     population_size = 1000;
-                    init_range = 2;
+                    init_range = 1;
 
 
                     genome_mutation_chance = 0.01;
-                    allele_mutation_chance = 0.2;
-                    mutation_step = 0.01;
+                    allele_mutation_chance = 0.1;
+                    mutation_step = 0.0005;
 
-                    cooling_rate = 0.00001;
+                    cooling_rate = 0.000000001;
 
                     tournamentSelection_slice = 40;
 
-                    race_limit = 5;
+                    race_limit =5;
                     cutoff = 40;
             }
 
             if(isMultimodal && !hasStructure) { //KatsuuraEvaluation
 
                 population_size = 1000;
-                life_expectancy = 1000;
-                init_range = 2;
+                init_range = 1;
 
 
                 genome_mutation_chance = 0.01;
                 allele_mutation_chance = 0.1;
-                mutation_step = 0.001;
+                mutation_step = 0.0001;
 
                 cooling_rate = 0.00000000000001;
 
@@ -190,9 +189,9 @@ public class player13 implements ContestSubmission
                 if (best_fitness == last_fitness) same_fitness++;
 
 
-            System.out.println("Generation:" + generations +
-                    " population:" + population_size+  " mutation_step:" + String.format("%.20f",mutation_step) +
-                    " evaluations:" + evals +" fitness:" + String.format("%.20f",best_fitness) );
+//            System.out.println("Generation:" + generations +
+//                    " population:" + population_size+  " mutation_step:" + String.format("%.20f",mutation_step) +
+//                    " evaluations:" + evals +" fitness:" + String.format("%.20f",best_fitness) );
 //
 ////            if (evals % 1000 == 0 )
 //                System.out.println("Generation:" + generations +
@@ -203,7 +202,7 @@ public class player13 implements ContestSubmission
                 if (!isMultimodal) { //BentCigar
                     removeSublist(cutoff);
                     int[] parents_;
-                    parents_ = tournamentSelection(cutoff, tournamentSelection_slice);
+                    parents_ = tournamentSelection(cutoff, tournamentSelection_slice,true);
                     int i=0;
                     while (i < cutoff) {
                         int[] parents_positions = {parents_[i+0], parents_[i+1], parents_[i+2], parents_[i+3]};
@@ -212,7 +211,7 @@ public class player13 implements ContestSubmission
                                 population.get(parents_positions[1]),
                                 population.get(parents_positions[2]),
                                 population.get(parents_positions[3]),
-                                0.1);
+                                0.009);
                     }
 //                    population.add(elite);population_size++;
 
@@ -222,12 +221,12 @@ public class player13 implements ContestSubmission
                         removeSublist(cutoff);
                         int[] parents_;
                         int race_ = 0;
-                        if (same_fitness >= 100) {
-                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice);
+                        if (generations % 100 == 0) {
+                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice,true);
                             same_fitness = 0;
                         } else{
 
-                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice, race_);
+                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice, race_,true);
                             if(race_ > race_limit)  race_ = 0;
                             else race_++;
 
@@ -244,7 +243,7 @@ public class player13 implements ContestSubmission
                                     population.get(parents_positions[1]),
                                     population.get(parents_positions[2]),
                                     population.get(parents_positions[3]),
-                                    1);
+                                    0.9);
 
 //                            population.add(elite);population_size++;
                         }
@@ -253,13 +252,13 @@ public class player13 implements ContestSubmission
                         removeSublist(cutoff);
                         int[] parents_;
                         int race_ = 0;
-                        if (same_fitness > 10) {
-                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice);
+                        if (generations % 1000 == 0) {
+                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice,true);
                             same_fitness = 0;
                         } else
                         {
 
-                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice, race_);
+                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice, race_,true);
                             if(race_ > race_limit)  race_ = 0;
                             else race_++;
 
@@ -275,7 +274,7 @@ public class player13 implements ContestSubmission
                                     population.get(parents_positions[1]),
                                     population.get(parents_positions[2]),
                                     population.get(parents_positions[3]),
-                                    1);
+                                    0.9);
 
 //                            population.add(elite);population_size++;
 
@@ -446,7 +445,7 @@ public class player13 implements ContestSubmission
     }
 
 
-    private int[] tournamentSelection(int number_of_parents,int slice){
+    private int[] tournamentSelection(int number_of_parents,int slice,boolean insest){
         int[] parents_positions = new int[number_of_parents];
 
         int parent_index = 0;
@@ -468,6 +467,7 @@ public class player13 implements ContestSubmission
             boolean unique = true;
             for (int  i = 0 ; i < number_of_parents;i++){
                 if(parents_positions[i] == parent_index) unique = false;
+                if(isRelated(parents_positions[i],parent_index) && !insest) unique = false;
             }
             if (unique) {
                 parents_positions[k] = parent_index;
@@ -477,7 +477,7 @@ public class player13 implements ContestSubmission
         return parents_positions;
     }
 
-    private int[] tournamentSelection(int number_of_parents,int slice,int race){
+    private int[] tournamentSelection(int number_of_parents,int slice,int race,boolean insest){
         int[] parents_positions = new int[number_of_parents];
 
         int parent_index = 0;
@@ -499,6 +499,7 @@ public class player13 implements ContestSubmission
             boolean unique = true;
             for (int  i = 0 ; i < number_of_parents;i++){
                 if(parents_positions[i] == parent_index || population.get(parent_index).getRace()[0] != race) unique = false;
+                if(isRelated(parents_positions[i],parent_index) && !insest) unique = false;
             }
             if (unique) {
                 parents_positions[k] = parent_index;
@@ -770,27 +771,16 @@ public class player13 implements ContestSubmission
         return related;
     }
 
-    private boolean isRelated(int[] parents_positions){
+    private boolean isRelated(int parents_position1 , int parents_position2){
         boolean related = true;
         if (
-                !isRelated(population.get(parents_positions[0]).parents, population.get(parents_positions[1]).parents) &&
-                        !isRelated(population.get(parents_positions[0]).parents, population.get(parents_positions[2]).parents) &&
-                        !isRelated(population.get(parents_positions[0]).parents, population.get(parents_positions[3]).parents) &&
-                        !isRelated(population.get(parents_positions[1]).parents, population.get(parents_positions[2]).parents) &&
-                        !isRelated(population.get(parents_positions[1]).parents, population.get(parents_positions[3]).parents) &&
-                        !isRelated(population.get(parents_positions[2]).parents, population.get(parents_positions[3]).parents)
-
-                        &&
-
-                        !isRelated(population.get(parents_positions[0]).parents, population.get(parents_positions[1])) &&
-                        !isRelated(population.get(parents_positions[0]).parents, population.get(parents_positions[2])) &&
-                        !isRelated(population.get(parents_positions[0]).parents, population.get(parents_positions[3])) &&
-                        !isRelated(population.get(parents_positions[1]).parents, population.get(parents_positions[2])) &&
-                        !isRelated(population.get(parents_positions[1]).parents, population.get(parents_positions[3])) &&
-                        !isRelated(population.get(parents_positions[2]).parents, population.get(parents_positions[3]))
+                !isRelated(population.get(parents_position1).parents, population.get(parents_position2).parents) &&
+                        !isRelated(population.get(parents_position2).parents, population.get(parents_position1).parents)
                 ) related = false;
         return related;
     }
+
+
     private int randInt(int low, int  high){
         int result = rnd_.nextInt(high-low) + low;
         return result;
