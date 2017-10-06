@@ -26,14 +26,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="player13.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="player13.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/player13.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="543">
+            <state relative-caret-position="485">
               <caret line="196" column="2" lean-forward="true" selection-start-line="196" selection-start-column="2" selection-end-line="196" selection-end-column="2" />
               <folding>
-                <element signature="e#31973#31974#0" expanded="true" />
-                <element signature="e#32020#32021#0" expanded="true" />
+                <element signature="e#32066#32067#0" expanded="true" />
+                <element signature="e#32113#32114#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -51,11 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+            <state relative-caret-position="90">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -83,8 +83,8 @@
         <option value="$PROJECT_DIR$/GenomeAdapt.java" />
         <option value="$PROJECT_DIR$/Population.java" />
         <option value="$PROJECT_DIR$/Genome.java" />
-        <option value="$PROJECT_DIR$/player13.java" />
         <option value="$PROJECT_DIR$/test" />
+        <option value="$PROJECT_DIR$/player13.java" />
       </list>
     </option>
   </component>
@@ -550,12 +550,12 @@
       <workItem from="1506585186244" duration="25814000" />
       <workItem from="1506679293429" duration="21962000" />
       <workItem from="1506955135163" duration="1577000" />
-      <workItem from="1507100849596" duration="33671000" />
+      <workItem from="1507100849596" duration="38724000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="213083000" />
+    <option name="totallyTimeSpent" value="218136000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -589,7 +589,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -654,8 +654,8 @@
         <state relative-caret-position="2880">
           <caret line="199" column="44" lean-forward="false" selection-start-line="199" selection-start-column="44" selection-end-line="199" selection-end-column="44" />
           <folding>
-            <element signature="e#31973#31974#0" expanded="true" />
-            <element signature="e#32020#32021#0" expanded="true" />
+            <element signature="e#32066#32067#0" expanded="true" />
+            <element signature="e#32113#32114#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -691,8 +691,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#31973#31974#0" expanded="true" />
-            <element signature="e#32020#32021#0" expanded="true" />
+            <element signature="e#32066#32067#0" expanded="true" />
+            <element signature="e#32113#32114#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -720,8 +720,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#31973#31974#0" expanded="true" />
-            <element signature="e#32020#32021#0" expanded="true" />
+            <element signature="e#32066#32067#0" expanded="true" />
+            <element signature="e#32113#32114#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -768,6 +768,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Genome.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
@@ -780,20 +788,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/player13.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="543">
+        <state relative-caret-position="485">
           <caret line="196" column="2" lean-forward="true" selection-start-line="196" selection-start-column="2" selection-end-line="196" selection-end-column="2" />
           <folding>
-            <element signature="e#31973#31974#0" expanded="true" />
-            <element signature="e#32020#32021#0" expanded="true" />
+            <element signature="e#32066#32067#0" expanded="true" />
+            <element signature="e#32113#32114#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>

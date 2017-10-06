@@ -124,29 +124,29 @@ public class player13 implements ContestSubmission
 
             if (!isMultimodal) {  // Bentcigar Fucntion
 
-                population_size = 900;
-                init_range = 10;
+                population_size = 1002;
+                init_range = 1;
 
                 genome_mutation_chance = 0.01;
                 allele_mutation_chance = 0.1;
                 mutation_step = 1;
-                cooling_rate = 0.0045;
+                cooling_rate = 0.000001;
 
-                tournamentSelection_slice = 10;
+                tournamentSelection_slice = 40;
 
                 race_limit = 1;
 
-                cutoff = 20;
+                cutoff = 8;
             }
 
             if (isMultimodal && hasStructure) { //SchaffersEvaluation
 
-                    population_size = 900; //changed this from 1000
+                    population_size = 901; //changed this from 1000
                     init_range = 1; // this was 1
 
 
                     genome_mutation_chance = 0.001;
-                    allele_mutation_chance = 1;
+                    allele_mutation_chance = 0.1;
                     mutation_step = 0.00000000000001;
 
                     cooling_rate = 0.0001;
@@ -159,19 +159,19 @@ public class player13 implements ContestSubmission
 
             if(isMultimodal && !hasStructure) { //KatsuuraEvaluation
 
-                population_size = 901;
-                init_range = 1;
+                population_size = 1002;
+                init_range = 2;
 
 
                 genome_mutation_chance = 0.01;
-                allele_mutation_chance = 1;
-                mutation_step = 0.0000000000000001;
+                allele_mutation_chance = 0.1;
+                mutation_step = 0.000000000000001;
 
-                cooling_rate = 0.000000001;
+                cooling_rate = 0.00000001;
 
-                tournamentSelection_slice = 40;
+                tournamentSelection_slice = 30;
 
-                race_limit = 5;
+                race_limit = 6;
                 cutoff = 40;
             }
 
@@ -191,40 +191,42 @@ public class player13 implements ContestSubmission
                 if (best_fitness == last_fitness) same_fitness++;
 
 
-//            System.out.println("Generation:" + generations +
-//                    " population:" + population_size+  " mutation_step:" + String.format("%.20f",mutation_step) +
-//                    " evaluations:" + evals +" fitness:" + String.format("%.20f",best_fitness) );
+            System.out.println("Generation:" + generations +
+                    " population:" + population_size+  " mutation_step:" + String.format("%.20f",mutation_step) +
+                    " evaluations:" + evals +" fitness:" + String.format("%.20f",best_fitness) );
 //
 ////            if (evals % 1000 == 0 )
 //                System.out.println("Generation:" + generations +
 //                        " population:" + population_size +
 //                        " evaluations:" + evals + " fitness:" + String.format("%.20f", best_fitness));
 
-                System.out.println(generations +
-                        "," + String.format("%.20f",mutation_step) +
-                        "," + evals +"," + String.format("%.20f",best_fitness) );
+//                System.out.println(generations +
+//                        "," + String.format("%.20f",mutation_step) +
+//                        "," + evals +"," + String.format("%.20f",best_fitness) );
+
+//                System.out.println(Arrays.toString(elite.getAlleles()));
 
                 if (!isMultimodal) { //BentCigar
                     removeSublist(cutoff);
                     int[] parents_;
-                    parents_ = tournamentSelection(cutoff, tournamentSelection_slice,false);
+                    parents_ = tournamentSelection(cutoff, tournamentSelection_slice,true);
                     int i=0;
                     while (i < cutoff) {
-                        int[] parents_positions = {parents_[i+0], parents_[i+1]};
-                        i+=2;
+                        int[] parents_positions = {parents_[i+0], parents_[i+1], parents_[i+2], parents_[i+3]};
+                        i+=4;
 //                        crossover3(population.get(parents_positions[0]),
 //                                population.get(parents_positions[1]),
 //                                population.get(parents_positions[2]));
-                        crossoverAverage2(population.get(parents_positions[0]),
-                                population.get(parents_positions[1]));
-//                        differentialCrossover(population.get(parents_positions[0]),
-//                                population.get(parents_positions[1]),
-//                                population.get(parents_positions[2]),
-//                                population.get(parents_positions[3]),
-//                                1);
+//                        crossoverAverage2(population.get(parents_positions[0]),
+//                                population.get(parents_positions[1]));
+                        differentialCrossover(population.get(parents_positions[0]),
+                                population.get(parents_positions[1]),
+                                population.get(parents_positions[2]),
+                                population.get(parents_positions[3]),
+                                .1);
                     }
 //                    if (best_fitness >8.0) mutation_step += -0.0000003;
-//                    if (best_fitness >9.9) mutation_step = 0.000000000001;
+                    if (best_fitness >9.99) cooling_rate = 0.002;
 //                    if (best_fitness >9.999) tournamentSelection_slice -= 1;
 //                    population.add(elite);population_size++;
 
@@ -399,8 +401,8 @@ public class player13 implements ContestSubmission
                 for (int i =0;i < 10;i++){
                     double allele = genome.getAlleleAtIndex(i);
 //            allele += (rnd_.nextDouble()-0.5) * genome.getMutation_step_atIndex(i);
-//                    allele += (rnd_.nextDouble()-0.5) * mutation_step ;
-                    allele += (nextCauchy(rnd_)-0.5) * mutation_step ;
+                    allele += (rnd_.nextDouble()-0.5) * mutation_step ;
+//                    allele += (nextCauchy(rnd_)-0.5) * mutation_step ;
 //                    allele += (rnd_.nextGaussian()-0.5) * mutation_step ;
 
                     genome.setAlleleAtIndex(allele,i);
