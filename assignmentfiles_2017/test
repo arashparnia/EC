@@ -4,6 +4,88 @@ javac -cp contest.jar player13.java Genome.java
 jar cmf MainClass.txt submission.jar player13.class Genome.class
 
 # java -jar testrun.jar -submission=player13  -evaluation=SphereEvaluation -seed=0 #hasStructure and isSeparable
- java -jar testrun.jar -submission=player13  -evaluation=BentCigarFunction -seed=3
+# java -Dvar1=0.5  -jar testrun.jar -submission=player13  -evaluation=BentCigarFunction -seed=0
 # java -jar testrun.jar -submission=player13  -evaluation=SchaffersEvaluation -seed=0 # isMultimodal and hasStructure
-# java -jar testrun.jar -submission=player13  -evaluation=KatsuuraEvaluation -seed=0 #   isMultimodal
+# java -jar testrun.jar -submission=player13  -evaluation=KatsuuraEvaluation -seed=1 #   isMultimodal
+
+
+ #COUNTER=100
+ #until [  $COUNTER -lt 1 ]; do
+ #    echo SEED $COUNTER
+ #    let COUNTER-=1
+ #    echo BentCigarFunction
+ #   java -jar testrun.jar -submission=player13  -evaluation=BentCigarFunction -seed=$COUNTER
+ #    echo SchaffersEvaluation
+ #    java -jar testrun.jar -submission=player13  -evaluation=SchaffersEvaluation -seed=$COUNTER # isMultimodal and hasStructure
+ #    echo KatsuuraEvaluation
+ #    java -jar testrun.jar -submission=player13  -evaluation=KatsuuraEvaluation -seed=$COUNTER #   isMultimodal
+ #done
+
+
+
+
+declare -a populationSize=(
+"100" "200" "300" "500" "1000"
+)
+declare -a genome_mutation_chance=(
+"1" "0.5" "0.1" "0.05" "0.01" "0.005"
+)
+declare -a mutation_step=(
+"1" "0.5" "0.1" "0.05" "0.01" "0.005"
+)
+declare -a tournamentSelection_slice=(
+"20" "30" "40" "50"
+)
+declare -a cooling_rate=(
+"0.1" "0.01" "0.001" "0.0001" "0.00001" "0.000001"
+)
+declare -a cutoff=(
+"4" "8" "12" "16"
+)
+
+declare -a populationSize=(
+"1003"
+)
+declare -a genome_mutation_chance=(
+"0.01"
+)
+declare -a mutation_step=(
+"0.00000000000001" "0.000000000000001"  "0.0000000000000001"
+)
+declare -a tournamentSelection_slice=(
+"30"
+)
+declare -a cooling_rate=(
+"0.0000001" "0.00000001" "0.000000001"
+)
+declare -a cutoff=(
+"40"
+)
+
+for ps in "${populationSize[@]}"
+do
+    for mutchance in "${genome_mutation_chance[@]}"
+    do
+        for mutstep in "${mutation_step[@]}"
+        do
+            for slice in "${tournamentSelection_slice[@]}"
+            do
+                for coolrate in "${cooling_rate[@]}"
+                do
+                    for cut in "${cutoff[@]}"
+                    do
+                        COUNTER=10
+                        until [  $COUNTER -lt 1 ];
+                        do
+                            let COUNTER-=1
+                            #java -Dps=$ps -Dmutchance=$mutchance -Dmutstep=$mutstep -Dslice=$slice -Dcoolrate=$coolrate -Dcut=$cut -jar testrun.jar -submission=player13  -evaluation=BentCigarFunction -seed=$COUNTER
+                            java -Dps=$ps -Dmutchance=$mutchance -Dmutstep=$mutstep -Dslice=$slice -Dcoolrate=$coolrate -Dcut=$cut -jar testrun.jar -submission=player13  -evaluation=KatsuuraEvaluation -seed=$COUNTER
+
+                        done
+                    done
+                done
+            done
+        done
+    done
+
+done

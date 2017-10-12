@@ -4,6 +4,8 @@ import org.vu.contest.ContestSubmission;
 import org.vu.contest.ContestEvaluation;
 
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 
@@ -12,7 +14,7 @@ public class player13 implements ContestSubmission
 	Random rnd_;
 	ContestEvaluation evaluation_;
     private int evaluations_limit_;
-
+    private long theseed;
 	public player13()
 	{
 		rnd_ = new Random();
@@ -28,6 +30,7 @@ public class player13 implements ContestSubmission
 	{
 		// Set seed of algortihms random process
 		rnd_.setSeed(seed);
+		this.theseed = seed;
 	}
 
 
@@ -120,80 +123,109 @@ public class player13 implements ContestSubmission
         }
     return best_fitness;
     }
-	public void run() {
 
-            if (!isMultimodal) {  // Bentcigar Fucntion
+    public void run() {
 
-                population_size = 1002;
-                init_range = 1;
 
-                genome_mutation_chance = 0.01;
-                allele_mutation_chance = 0.1;
-                mutation_step = 1;
-                cooling_rate = 0.000001;
+        if (!isMultimodal) {  // Bentcigar Fucntion
 
-                tournamentSelection_slice = 40;
+            population_size = 300;
+            init_range = 1;
 
-                race_limit = 1;
+            genome_mutation_chance = 0.5;
+            allele_mutation_chance = 0.1;
+            mutation_step = 0.1;
+            cooling_rate = 0.001;
 
-                cutoff = 8;
+            tournamentSelection_slice = 20;
+
+            race_limit = 1;
+
+            cutoff = 16;
+        }
+
+        if (isMultimodal && hasStructure) { //SchaffersEvaluation
+
+            population_size = 901; //changed this from 1000
+            init_range = 1; // this was 1
+
+
+            genome_mutation_chance = 0.001;
+            allele_mutation_chance = 1;
+            mutation_step = 0.00000000000001;
+
+            cooling_rate = 0.0001;
+
+            tournamentSelection_slice = 40;
+
+            race_limit =5;
+            cutoff = 40;
+        }
+
+        if(isMultimodal && !hasStructure) { //KatsuuraEvaluation
+
+            population_size = 1003;
+            init_range = 2;
+
+
+            genome_mutation_chance = 0.01;
+            allele_mutation_chance = 1;
+            mutation_step = 0.000000000000001;
+
+            cooling_rate = 0.00000001;
+
+            tournamentSelection_slice = 30;
+
+            race_limit = 6;
+            cutoff = 40;
+        }
+
+
+
+
+        population_size = Integer.parseInt(System.getProperty("ps"));
+        genome_mutation_chance = Double.parseDouble(System.getProperty("mutchance"));
+        mutation_step = Double.parseDouble(System.getProperty("mutstep"));
+        tournamentSelection_slice = Integer.parseInt(System.getProperty("slice"));
+        cooling_rate = Double.parseDouble(System.getProperty("coolrate"));
+        cutoff = Integer.parseInt(System.getProperty("cut"));
+
+        System.out.println(population_size + " , " + genome_mutation_chance + " , " + mutation_step + " , " + tournamentSelection_slice + " , " + cooling_rate+ " , " + cutoff + " , " + theseed);
+
+
+
+
+        initPopulation(genome_size,init_range,mutation_step,allele_mutation_chance);
+        splitPopulation(race_limit);
+
+        // calculate fitness
+
+        elite = new Genome();
+
+        while (evals < evaluations_limit_) {
+
+            double best_fitness = evaluate();
+
+            if (round(best_fitness,3) == last_fitness) same_fitness++;
+            last_fitness = round(best_fitness,3);
+
+
+            int counters[] = new int[10];
+//            int related_count = 0;
+            for (Genome g : population){
+//                for(Genome gg : population){
+//                    if (isRelated(g.parents,gg.parents))  related_count++;
+//                }
+                for(int i = 0 ; i < 10; i++){
+                    if (g.getRace()[0] == i ) counters[i]++;
+
+                }
             }
+//            System.out.println(Arrays.toString(counters) + " , " + best_fitness);
 
-            if (isMultimodal && hasStructure) { //SchaffersEvaluation
-
-                    population_size = 901; //changed this from 1000
-                    init_range = 1; // this was 1
-
-
-                    genome_mutation_chance = 0.001;
-                    allele_mutation_chance = 0.1;
-                    mutation_step = 0.00000000000001;
-
-                    cooling_rate = 0.0001;
-
-                    tournamentSelection_slice = 40;
-
-                    race_limit =5;
-                    cutoff = 40;
-            }
-
-            if(isMultimodal && !hasStructure) { //KatsuuraEvaluation
-
-                population_size = 1002;
-                init_range = 2;
-
-
-                genome_mutation_chance = 0.01;
-                allele_mutation_chance = 0.1;
-                mutation_step = 0.000000000000001;
-
-                cooling_rate = 0.00000001;
-
-                tournamentSelection_slice = 30;
-
-                race_limit = 6;
-                cutoff = 40;
-            }
-
-
-
-            initPopulation(genome_size,init_range,mutation_step,allele_mutation_chance);
-            splitPopulation(race_limit);
-
-            // calculate fitness
-
-            elite = new Genome();
-
-            while (evals < evaluations_limit_) {
-
-                double best_fitness = evaluate();
-
-                if (best_fitness == last_fitness) same_fitness++;
-
-
-            System.out.println("Generation:" + generations +
-                    " population:" + population_size+  " mutation_step:" + String.format("%.20f",mutation_step) +
-                    " evaluations:" + evals +" fitness:" + String.format("%.20f",best_fitness) );
+//            System.out.println("Generation:" + generations +
+//                    " population:" + population_size+  " mutation_step:" + String.format("%.20f",mutation_step) +
+//                    " evaluations:" + evals +" fitness:" + String.format("%.20f",best_fitness)  );
 //
 ////            if (evals % 1000 == 0 )
 //                System.out.println("Generation:" + generations +
@@ -202,126 +234,120 @@ public class player13 implements ContestSubmission
 
 //                System.out.println(generations +
 //                        "," + String.format("%.20f",mutation_step) +
-//                        "," + evals +"," + String.format("%.20f",best_fitness) );
+//                        "," + evals +"," + String.format("%.20f",best_fitness)+  " , " + Arrays.toString(counters) + "," + String.format("%.10f",best_fitness/evals)   );
 
 //                System.out.println(Arrays.toString(elite.getAlleles()));
 
-                if (!isMultimodal) { //BentCigar
-                    removeSublist(cutoff);
-                    int[] parents_;
-                    parents_ = tournamentSelection(cutoff, tournamentSelection_slice,true);
-                    int i=0;
-                    while (i < cutoff) {
-                        int[] parents_positions = {parents_[i+0], parents_[i+1], parents_[i+2], parents_[i+3]};
-                        i+=4;
+
+//  -------------------------------------------------------------------------------------------------------------
+            if (!isMultimodal) { //BentCigar
+                removeSublist(cutoff);
+//                if (best_fitness > 9.99) cutoff += 4;
+                int[] parents_;
+                parents_ = tournamentSelection(cutoff, tournamentSelection_slice,true);
+                int i=0;
+                while (i < cutoff) {
+                    int[] parents_positions = {parents_[i+0], parents_[i+1], parents_[i+2], parents_[i+3]};
+                    i+=4;
 //                        crossover3(population.get(parents_positions[0]),
 //                                population.get(parents_positions[1]),
 //                                population.get(parents_positions[2]));
 //                        crossoverAverage2(population.get(parents_positions[0]),
 //                                population.get(parents_positions[1]));
+                    differentialCrossover(population.get(parents_positions[0]),
+                            population.get(parents_positions[1]),
+                            population.get(parents_positions[2]),
+                            population.get(parents_positions[3]),
+                            .1);
+                }
+//                    if (best_fitness >8.0) mutation_step += -0.0000003;
+//                if (best_fitness >9.99) cooling_rate = 0.002;
+//                    if (best_fitness >9.999) tournamentSelection_slice -= 1;
+//                    population.add(elite);population_size++;
+
+            } else {
+                //  ----------------------------------------------------------------------------------------------
+                if (hasStructure) { //SchaffersEvaluation
+                    removeSublist(cutoff);
+                    int[] parents_;
+                    int race_ = 0;
+                    if (generations % 100 == 0) {
+                        parents_ = tournamentSelection(cutoff, tournamentSelection_slice,true);
+                        same_fitness = 0;
+                    } else{
+                        parents_ = tournamentSelection(cutoff, tournamentSelection_slice, race_,true);
+                        if(race_ > race_limit)  race_ = 0;
+                        else race_++;
+                    }
+                    int i = 0;
+                    while (i < cutoff) {
+                        int[] parents_positions = {parents_[i + 0], parents_[i + 1], parents_[i + 2], parents_[i + 3]};
+                        i += 4;
                         differentialCrossover(population.get(parents_positions[0]),
                                 population.get(parents_positions[1]),
                                 population.get(parents_positions[2]),
                                 population.get(parents_positions[3]),
-                                .1);
+                                0.75);
                     }
-//                    if (best_fitness >8.0) mutation_step += -0.0000003;
-                    if (best_fitness >9.99) cooling_rate = 0.002;
-//                    if (best_fitness >9.999) tournamentSelection_slice -= 1;
-//                    population.add(elite);population_size++;
-
                 } else {
-                    if (hasStructure) { //SchaffersEvaluation
-//                        fittnessSharing(10);
-                        removeSublist(cutoff);
-                        int[] parents_;
-                        int race_ = 0;
-                        if (generations % 100 == 0) {
-                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice,true);
-                            same_fitness = 0;
-                        } else{
-
-                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice, race_,true);
-                            if(race_ > race_limit)  race_ = 0;
-                            else race_++;
-
-                        }
-
-                        int i = 0;
-                        while (i < cutoff) {
-                            int[] parents_positions = {parents_[i + 0], parents_[i + 1], parents_[i + 2], parents_[i + 3]};
-
-                            i += 4;
-
-//                          if(!isRelated(parents_positions))
-                            differentialCrossover(population.get(parents_positions[0]),
-                                    population.get(parents_positions[1]),
-                                    population.get(parents_positions[2]),
-                                    population.get(parents_positions[3]),
-                                    0.75);
-
-//                            population.add(elite);population_size++;
-                        }
-                    } else { //KatsuuraEvaluation
+                    //  ------------------------------------------------------------------------------------------
+                    //KatsuuraEvaluation
 //                        fittnessSharing(100);
-                        removeSublist(cutoff);
-                        int[] parents_;
-                        int race_ = 0;
-                        if (generations % 1000 == 0) {
-                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice,true);
-                            same_fitness = 0;
-                        } else
-                        {
-
-                            parents_ = tournamentSelection(cutoff, tournamentSelection_slice, race_,true);
-                            if(race_ > race_limit)  race_ = 0;
-                            else race_++;
-
-                        }
-                        int i = 0;
-                        while (i < cutoff) {
-                            int[] parents_positions = {parents_[i + 0], parents_[i + 1], parents_[i + 2], parents_[i + 3]};
-
-                            i += 4;
-
-//                          if(!isRelated(parents_positions))
-                            differentialCrossover(population.get(parents_positions[0]),
-                                    population.get(parents_positions[1]),
-                                    population.get(parents_positions[2]),
-                                    population.get(parents_positions[3]),
-                                    0.9);
-
-//                            population.add(elite);population_size++;
-
-
-                        }
+                    if( same_fitness > 100 && best_fitness < 9 && best_fitness > 1)  {
+                        same_fitness=0;
+                        population_size--;
                     }
 
+                    removeSublist(cutoff);
+                    int[] parents_;
+                    int race_ = 0;
+                    if (generations % 1000 == 0) {
+                        parents_ = tournamentSelection(cutoff, tournamentSelection_slice,true);
+                        same_fitness = 0;
+                    } else {
+                        parents_ = tournamentSelection(cutoff, tournamentSelection_slice, race_,true);
+                        if(race_ > race_limit)  race_ = 0;
+                        else race_++;
+                    }
+                    int i = 0;
+                    while (i < cutoff) {
+                        int[] parents_positions = {parents_[i + 0], parents_[i + 1], parents_[i + 2], parents_[i + 3]};
+                        i += 4;
+                        differentialCrossover(population.get(parents_positions[0]),
+                                population.get(parents_positions[1]),
+                                population.get(parents_positions[2]),
+                                population.get(parents_positions[3]),
+                                0.9);
+                    }
                 }
-                mutatePopulation(genome_mutation_chance);
+
+            }
+            mutatePopulation(genome_mutation_chance);
 
 
 
 
-                generations++;
+            generations++;
 //                for (Genome g : population.getPopulation()) g.age();
 
 
-            }
+//
+
+        }
 
 
 //            System.out.println(Arrays.toString(elite.getAlleles()));
 //            System.out.println(elite.getFitness());
 //            System.out.println(elite.getMutation_rate());
-        }
-        //*************************************************************************************************
+    }
+    //*************************************************************************************************
 
 
 
 
 
 
-	//todo: add mutation addition vector
+    //todo: add mutation addition vector
 
 
 
@@ -362,11 +388,7 @@ public class player13 implements ContestSubmission
             }
 //            genome.setMutation_rate( rnd_.nextDouble() * allele_mutation_chance);
 //             genome.setMutation_step( (rnd_.nextDouble() - 0.5)   * mutation_step);
-//            double[] a = {-0.9858244722505388, 3.999176232240111, -0.042124887755302494, -3.6947898099101364, -0.15798503947882903, -2.0025428067422912, 1.313564593538192, -0.7562533345677892, 1.2623663203163324, -0.349182894330935};
-//            double[] a = {-0.93048292515929, 3.9948649712850046, 0.0849646806798547, -3.7573004022882786, -0.34321694328776, -2.0536289069143745, 1.354830646277407, -0.7428873166019453, 1.1918768257314292, -0.3224792439100581};
-//            double[] a = {3.6561459821132414, 2.549850580810461, -1.5295756953315287, 1.4695902617024603, 1.3959301792555534, -1.907775225893233, 3.501475749262774, -2.3504067663677914, -0.38434415169240255, -2.035778174940285};
-//            double[] a = {3.6560001854244017, 2.549598391735745, -1.5295934182288689, 1.4696057968671254, 1.3960044017250341, -1.9079948804630849, 3.501601075993106, -2.3503977678983485, -0.38399078506341383, -2.036003672267281};
-//        genome.setAlleles(a);
+//
 
         }
     }
@@ -381,30 +403,28 @@ public class player13 implements ContestSubmission
 
 	    return  score;
     }
-
-// stolen from : https://math.stackexchange.com/questions/484395/how-to-generate-a-cauchy-random-variable
+    // stolen from : https://math.stackexchange.com/questions/484395/how-to-generate-a-cauchy-random-variable
     public static double nextCauchy(Random rnd) {
-        double p = rnd.nextDouble();
+            double p = rnd.nextDouble();
 
-        while (p == 0. || p == 1.) {
-            p = rnd.nextDouble();
-        }
+                    while (p == 0. || p == 1.) {
+                    p = rnd.nextDouble();
+                }
 
-        return Math.tan(Math.PI * (rnd.nextDouble() - .5));
+            return Math.tan(Math.PI * (rnd.nextDouble() - .5));
     }
 
     public void mutatePopulation(double genome_mutation_chance) {
 
         for (Genome genome : population) {
-            if (rnd_.nextDouble() < genome_mutation_chance) {
+            if (rnd_.nextDouble() < genome_mutation_chance && !genome.isEvaluated()) {
 
                 for (int i =0;i < 10;i++){
                     double allele = genome.getAlleleAtIndex(i);
 //            allele += (rnd_.nextDouble()-0.5) * genome.getMutation_step_atIndex(i);
-                    allele += (rnd_.nextDouble()-0.5) * mutation_step ;
-//                    allele += (nextCauchy(rnd_)-0.5) * mutation_step ;
+//                    allele += (rnd_.nextDouble()-0.5) * mutation_step ;
+                    allele += (nextCauchy(rnd_)-0.5) * mutation_step ;
 //                    allele += (rnd_.nextGaussian()-0.5) * mutation_step ;
-
                     genome.setAlleleAtIndex(allele,i);
                 }
                 genome.setAge(0);
@@ -413,7 +433,13 @@ public class player13 implements ContestSubmission
         }
     }
 
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
 
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
     private int[] rouletteWheelSelection(int number_of_parents){
         int[] parents_positions = new int[number_of_parents];
         int k = 0;
