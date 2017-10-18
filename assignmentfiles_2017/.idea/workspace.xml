@@ -29,20 +29,8 @@
       <file leaf-file-name="player13.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/player13.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="498">
-              <caret line="174" column="27" lean-forward="true" selection-start-line="174" selection-start-column="27" selection-end-line="174" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Genome.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Genome.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="900">
-              <caret line="126" column="0" lean-forward="false" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+            <state relative-caret-position="426">
+              <caret line="246" column="2" lean-forward="true" selection-start-line="246" selection-start-column="2" selection-end-line="246" selection-end-column="2" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -53,8 +41,8 @@
       <file leaf-file-name="test" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="742">
-              <caret line="76" column="33" lean-forward="true" selection-start-line="76" selection-start-column="33" selection-end-line="76" selection-end-column="33" />
+            <state relative-caret-position="100">
+              <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -73,6 +61,18 @@
     <findStrings>
       <find>}</find>
       <find>ms</find>
+      <find>10.</find>
+      <find>9.9999999</find>
+      <find>9.</find>
+      <find>9.99999</find>
+      <find>9.999999</find>
+      <find>9.9</find>
+      <find>9.9999</find>
+      <find>9.99</find>
+      <find>9.99999999</find>
+      <find>10.0</find>
+      <find>9.999999999</find>
+      <find>9.99999999900</find>
     </findStrings>
     <replaceStrings>
       <replace>)</replace>
@@ -93,7 +93,9 @@
         <option value="$PROJECT_DIR$/Population.java" />
         <option value="$PROJECT_DIR$/Genome.java" />
         <option value="$PROJECT_DIR$/bentcigaravg.csv" />
+        <option value="$PROJECT_DIR$/bentcigarresult.csv" />
         <option value="$PROJECT_DIR$/bentcigarGrid.csv" />
+        <option value="$PROJECT_DIR$/SchaffersGrid.csv" />
         <option value="$PROJECT_DIR$/player13.java" />
         <option value="$PROJECT_DIR$/test" />
       </list>
@@ -563,12 +565,12 @@
       <workItem from="1506955135163" duration="1577000" />
       <workItem from="1507100849596" duration="51765000" />
       <workItem from="1507561001485" duration="4320000" />
-      <workItem from="1507732222331" duration="6373000" />
+      <workItem from="1507732222331" duration="39433000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="241870000" />
+    <option name="totallyTimeSpent" value="274930000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -818,10 +820,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bentcigarGrid.csv">
+    <entry file="file://$PROJECT_DIR$/bentcigarresult.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3678">
-          <caret line="7914" column="38" lean-forward="false" selection-start-line="7914" selection-start-column="38" selection-end-line="7914" selection-end-column="38" />
+        <state relative-caret-position="252">
+          <caret line="172" column="17" lean-forward="false" selection-start-line="172" selection-start-column="17" selection-end-line="172" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bentcigarGrid.csv">
+      <provider editor-type-id="LargeFileEditor">
+        <state relative-caret-position="299">
+          <caret line="9587" column="100" lean-forward="false" selection-start-line="9587" selection-start-column="92" selection-end-line="9587" selection-end-column="100" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="22" column="20" lean-forward="false" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/KatsuuraEvaluation.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-22420">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SchaffersGrid.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -838,8 +869,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/player13.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="174" column="27" lean-forward="true" selection-start-line="174" selection-start-column="27" selection-end-line="174" selection-end-column="37" />
+        <state relative-caret-position="426">
+          <caret line="246" column="2" lean-forward="true" selection-start-line="246" selection-start-column="2" selection-end-line="246" selection-end-column="2" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -848,8 +879,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="742">
-          <caret line="76" column="33" lean-forward="true" selection-start-line="76" selection-start-column="33" selection-end-line="76" selection-end-column="33" />
+        <state relative-caret-position="100">
+          <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
           <folding />
         </state>
       </provider>
